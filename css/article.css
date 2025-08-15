@@ -1,0 +1,207 @@
+/* ========= ARTICLE PAGE LAYOUT (ÜBERARBEITET) ========= */
+.article-container {
+    max-width: 100%; /* Nimmt die volle Breite ein */
+    margin: 3rem auto;
+}
+
+.article-container article {
+    max-width: 960px; /* Breiterer Inhalt */
+    margin: 0 auto;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden; /* Stellt sicher, dass der border-radius auf das Bild angewendet wird */
+}
+
+.article-featured-image {
+    width: 100%;
+    height: auto;
+    display: block; /* Entfernt Leerraum unter dem Bild */
+}
+
+.article-text-content {
+    padding: 2rem;
+}
+
+/* Roter Block für den Titel */
+.article-header {
+    background-color: #FF416C;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+}
+html[data-theme='dark'] .article-header {
+    background-color: #6a11cb; /* Passender lila Block im Dark Mode */
+}
+
+.article-header h1 {
+    font-size: 2.8rem;
+    line-height: 1.15; /* Engerer Zeilenabstand */
+    margin-bottom: 0.5rem;
+    color: #FFFFFF; /* Weiße Schrift */
+}
+
+.article-meta {
+    color: rgba(255, 255, 255, 0.85); /* Leicht transparente weiße Schrift */
+    margin-bottom: 0;
+}
+
+.breadcrumbs {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+.breadcrumbs a {
+    color: var(--color-text-muted);
+}
+
+.article-body {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    font-weight: 100 !important; /* KORREKTUR: Leicht dünnere Schrift */
+}
+
+.article-body h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2; /* KORREKTUR: Engerer Zeilenabstand */
+}
+
+.article-body h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    line-height: 1.2; /* KORREKTUR: Engerer Zeilenabstand */
+}
+
+.article-body .intro-paragraph {
+    background-color: #f1f3f5;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+html[data-theme='dark'] .article-body .intro-paragraph {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+
+
+/* Stile für eingebettete Videos */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000;
+    margin: 2rem 0;
+    border-radius: var(--border-radius);
+}
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Stile für Tabellen (VERBESSERT) */
+.article-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+.article-body th, .article-body td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+.article-body th {
+    background-color: #f1f3f5; /* Heller grauer Hintergrund für den Header */
+    font-weight: 800;
+}
+/* Vertikale Linien hinzufügen */
+.article-body th:not(:last-child),
+.article-body td:not(:last-child) {
+    border-right: 1px solid var(--color-border);
+}
+.article-body tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Leichter Hintergrund für gerade Zeilen */
+}
+/* Letzte Zeile hat keine untere Linie mehr */
+.article-body tbody tr:last-child td {
+    border-bottom: 0;
+}
+html[data-theme='dark'] .article-body th {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+html[data-theme='dark'] .article-body tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Stile für Listen */
+.article-body ul {
+    list-style: none;
+    padding-left: 0;
+}
+.article-body ul li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+.article-body ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 800;
+}
+
+/* Stile für Zitate */
+.article-body blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-left: 5px solid var(--color-primary);
+    font-style: italic;
+    font-size: 1.2rem;
+    box-shadow: var(--box-shadow);
+}
+.article-body blockquote p {
+    margin-bottom: 0;
+}
+
+/* Stile für "Related Articles" */
+.related-articles-container {
+    max-width: 960px;
+    margin: 4rem auto 0 auto;
+}
+.related-articles-container h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Anpassungen für die Artikelseite auf Mobilgeräten */
+@media (max-width: 800px) {
+    .article-container article {
+        border-radius: 0;
+    }
+    .article-text-content {
+        padding: 1.5rem;
+    }
+    .article-header {
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+    }
+    .article-header h1 {
+        font-size: 2.2rem;
+    }
+}

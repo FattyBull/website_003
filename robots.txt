@@ -1,0 +1,8 @@
+# This file tells search engine crawlers which pages or files
+# the crawler can or can't request from your site.
+
+# The asterisk applies to all crawlers (Googlebot, Bingbot, etc.)
+User-agent: *
+
+# The slash means "disallow everything" on the entire site.
+Disallow: /

@@ -1,0 +1,8 @@
+# Aktiviere die URL-Rewrite-Engine
+RewriteEngine On
+
+# Leite alle Anfragen, die nicht auf eine existierende Datei oder einen Ordner verweisen,
+# auf die article.html um und übergib den Slug als Parameter.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^[a-z0-9-]+/([a-z0-9-]+)/?$ /article.html?slug=$1 [L,QSA]

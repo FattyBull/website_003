@@ -1,0 +1,175 @@
+Projektübersicht: Hammerbanger.com – Roblox Website
+Dieses Dokument skizziert den Plan für die Entwicklung einer hochperformanten, SEO-freundlichen und monetarisierbaren statischen Website für Roblox-Inhalte unter der Domain https://hammerbanger.com. Die Website wird lokal in Visual Studio Code entwickelt und verwaltet, mit einem Fokus auf einfache Wartung und globale Designanpassungen.
+
+1. Projektziel
+Das Hauptziel ist die Erstellung einer schnellen, optisch ansprechenden und suchmaschinenoptimierten Website, die sich auf Roblox-Inhalte konzentriert. Das Design soll zentral über eine einzige globale CSS-Datei steuerbar sein, um zukünftige Designänderungen effizient zu gestalten. Die Website soll für die Monetarisierung vorbereitet sein und alle empfohlenen Google SEO-Praktiken integrieren. Die Website muss vollständig responsiv sein und auf allen Geräten (Mobile, Tablet, Desktop) optimal funktionieren.
+
+2. Seitenstruktur und Komponenten
+Die Website wird aus vier Hauptseitentypen bestehen, die jeweils aus wiederverwendbaren Bausteinen aufgebaut sind:
+
+Homepage (Startseite):
+
+Die Hauptseite der Domain (https://hammerbanger.com).
+
+Zeigt die neuesten Artikel, sortiert nach Veröffentlichungsdatum.
+
+Ein "Featured Article" wird prominent oben auf der Seite platziert.
+
+Inhalt wird dynamisch aus den Artikel-Pages generiert und in Artikelkarten dargestellt.
+
+Kategorieseite:
+
+Seiten, die Inhalte nach Kategorien filtern (z.B. "Players", "Creators", "News").
+
+Funktioniert ähnlich wie die Homepage, zeigt aber nur Artikel der jeweiligen Kategorie.
+
+Kategorien werden durch die Verzeichnisstruktur abgebildet (z.B. /players/, /creators/, /news/).
+
+Artikelseite:
+
+Detailseiten für einzelne Artikel, Nachrichten oder Blogbeiträge.
+
+Zeigt den vollständigen Inhalt eines Artikels.
+
+Artikel werden durch die Verzeichnisstruktur abgebildet (z.B. /players/artikel-001/, /creators/artikel-001/, /news/artikel-001/).
+
+3D-Modellkatalog und Viewer-Seite:
+
+Eine dedizierte Seite für den 3D-Modellkatalog und den Viewer.
+
+Ermöglicht das Laden und Betrachten von .glb-3D-Modellen mit three.js.
+
+Der Katalog wird über Thumbnails navigierbar sein.
+
+Alle Seiten teilen sich die folgenden globalen Komponenten:
+
+Header:
+
+Navigationsmenü (inkl. Link zum 3D-Modellkatalog).
+
+Umschalter für den Dunkel-/Hellmodus (Dark/Light Mode Switch).
+
+Suchfeld für die Websitensuche.
+
+Hauptinhaltsbereich (Main Content Page):
+
+Enthält den spezifischen Inhalt der jeweiligen Seite.
+
+Breadcrumbs: Navigationspfad zur besseren Orientierung des Nutzers und zur SEO-Optimierung.
+
+Related Articles (Verwandte Artikel):
+
+Erscheint direkt nach dem Hauptinhaltsbereich auf Artikelseiten.
+
+Zeigt eine Auswahl von thematisch ähnlichen Artikeln an.
+
+Footer:
+
+Enthält rechtliche Informationen (Impressum, Copyright).
+
+Copyright-Informationen: Copyright © 2025 hammerbanger.com | Fjord LLC
+
+Adresse: 530-B Harkle Road, Ste 100, Santa Fe, NM 87505
+
+Newsletter-Anmeldung: Ein Eingabefeld für die E-Mail-Adresse des Besuchers mit einem "Subscribe"-Button.
+
+3. Design-Prinzipien
+Globale CSS-Steuerung: Das gesamte Design der Website wird über eine einzige, zentrale CSS-Datei (global.css oder ähnlich) gesteuert. Dies ermöglicht es, Designänderungen (Farben, Schriftarten, Layouts) durch die Anpassung dieser einen Datei global auf alle Seiten anzuwenden.
+
+Farbenfroh und spielerisch: Das Design soll die lebendige und unterhaltsame Natur von Roblox widerspiegeln, mit einer farbenfrohen und ansprechenden Ästhetik.
+
+Artikelkarten-Layout: Artikel werden in einem übersichtlichen Kartenformat präsentiert, ähnlich dem bereitgestellten Beispiel. Jede Artikelkarte enthält ein Bild, die Kategorie, den Titel und zwei Zeilen kurzen Text. Beim Klicken auf die Karte wird der vollständige Artikel geladen.
+
+Dunkel-/Hellmodus: Eine Umschaltfunktion im Header ermöglicht es den Nutzern, zwischen einem hellen und einem dunklen Farbschema zu wechseln, das ebenfalls über die globale CSS-Datei definiert wird. Die Schriftart bleibt dabei primär gleich, es sei denn, es ist für die Lesbarkeit auf verschiedenen Geräten unbedingt notwendig.
+
+Responsives Design: Die Website wird vollständig responsiv gestaltet, um eine optimale Darstellung und Benutzerfreundlichkeit auf allen Geräten (Desktop, Tablet, Mobiltelefon) zu gewährleisten.
+
+4. Technische Anforderungen
+Statische Website: Die Website wird als statische Website implementiert, um maximale Leistung und Sicherheit zu gewährleisten.
+
+Standard-Webtechnologien: Es werden ausschließlich HTML, CSS und JavaScript verwendet. Der Einsatz von Plugins wird auf ein Minimum reduziert, um die Performance zu maximieren.
+
+Performance-Optimierung: Ein Hauptaugenmerk liegt auf der Geschwindigkeit der Website. Dies beinhaltet:
+
+Optimierung von Bildern und Medien (Verwendung von .webp-Formaten).
+
+Minimierung von CSS- und JavaScript-Dateien.
+
+Effizientes Laden von Ressourcen (z.B. Lazy Loading für Bilder).
+
+Einhaltung der Core Web Vitals mit dem Ziel, alle Lighthouse-Scores auf "Grün" und maximale Punktzahl zu bringen (inkl. CSS-Kompression und ähnlichen Techniken).
+
+Keine alert() oder confirm(): Für Benutzerinteraktionen werden benutzerdefinierte Modale anstelle von Browser-Popups verwendet.
+
+Interaktivität (Vanilla JS):
+
+Suchfunktion: Ein Suchfeld im Header, das den gesamten Websiteninhalt nach Artikeln oder Inhalten durchsucht.
+
+Kommentarbereich: Ein Kommentarbereich auf Artikelseiten.
+
+Lazy Loading: Implementierung von Lazy Loading für Bilder, sofern empfohlen.
+
+3D-Modellkatalog und Viewer:
+
+Implementierung von three.js für das Laden und Anzeigen von .glb-3D-Modellen.
+
+Ein eigener Katalog von 3D-Modellen, der über Thumbnails ausgewählt werden kann.
+
+Dieser Bereich wird als eine große Kategorie im Navigationsmenü integriert.
+
+5. SEO & Monetarisierung
+Sitemap.xml: Eine .xml-Sitemap wird erstellt, um Suchmaschinen eine vollständige Übersicht über alle Seiten der Website zu bieten.
+
+Google SEO Best Practices: Alle wichtigen und empfohlenen Google SEO-Optimierungen werden umgesetzt. Empfohlene Schema Markups umfassen:
+
+Article (für Artikelseiten)
+
+WebPage (für allgemeine Seiten, Homepage, Kategorieseiten)
+
+BreadcrumbList (für die Breadcrumbs)
+
+Zusätzlich werden relevante Schemas für VideoObject (falls Videos eingebunden werden), ImageObject und Organization in Betracht gezogen.
+
+Saubere URLs, aussagekräftige Meta-Beschreibungen, korrekte Alt-Texte für Bilder, semantisches HTML5, schnelle Ladezeiten und Mobilfreundlichkeit sind Kernpunkte.
+
+Monetarisierung: Die Website wird so konzipiert, dass sie zukünftige Monetarisierungsstrategien unterstützt, einschließlich:
+
+Google AdSense.
+
+Affiliate-Links.
+
+Links zu Shops wie Gumroad.
+
+Die Struktur wird flexibel gestaltet, um verschiedene Monetarisierungsformen zu integrieren.
+
+6. Entwicklungsumgebung
+Lokaler Entwicklungspfad: Ein dedizierter Projektordner, der in Visual Studio Code geöffnet wird.
+
+Lokaler Test-Server: http://127.0.0.1 (mittels der "Live Server" VS Code Extension).
+
+Live-Domain: https://hammerbanger.com
+
+7. Verzeichnisstruktur
+Alle Bilder, Audio-Dateien und andere Mediendateien werden zentral in einem Verzeichnis /media gespeichert. Bilder werden im .webp-Format vorliegen.
+
+Die globale CSS-Datei wird an einem leicht zugänglichen Ort platziert, idealerweise im Stammverzeichnis oder einem /css-Unterverzeichnis.
+
+Artikel werden in kategoriebasierten Verzeichnissen gespeichert (z.B. /players/, /creators/, /news/).
+
+8. Rechtliche Hinweise
+Die rechtlichen Informationen (Impressum, Copyright) sind zentral in der Footer-Komponente hinterlegt.
+
+Copyright & Firma: Copyright © 2025 hammerbanger.com | Fjord LLC
+
+Adresse: 530-B Harkle Road, Ste 100, Santa Fe, NM 87505
+
+9. Sprache und Internationalisierung
+Die primäre Sprache des Inhalts und der Benutzeroberfläche wird US-Englisch sein.
+
+Mehrsprachigkeit (zukünftige Planung): Die Website-Struktur wird so konzipiert, dass eine spätere Erweiterung um zusätzliche Sprachen (z.B. Spanisch, Portugiesisch, Chinesisch, Japanisch, Deutsch) möglich ist, ohne Duplicate-Content-Strafen zu riskieren. Dies würde typischerweise über separate URLs pro Sprache (z.B. hammerbanger.com/es/, hammerbanger.com/de/) und die Verwendung von hreflang-Tags erfolgen. Die Artikel müssten dann in die jeweilige Sprache übersetzt werden.
+
+10. Zukünftige Erweiterungen (Planung)
+Forum: Die Struktur wird eine zukünftige Integration eines Forums berücksichtigen.
+
+11. Nächste Schritte
+Basierend auf dieser umfassenden Projektübersicht werden wir mit der Implementierung der grundlegenden HTML-Struktur, der globalen CSS-Datei und der JavaScript-Funktionalität für den Dunkel-/Hellmodus und die Artikelkarten beginnen. Anschließend werden wir einen Beispiel-Nachrichtenartikel erstellen und diesen in das globale Design integrieren.

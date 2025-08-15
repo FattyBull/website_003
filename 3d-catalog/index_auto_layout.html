@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automotive Material Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        .modal-backdrop {
+            background-color: rgba(0,0,0,0.7);
+        }
+        #material-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+        }
+        .filter-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .filter-button.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white">Automotive Material Library</h1>
+            <p class="text-lg text-gray-400 mt-2">Search, filter, and preview digital assets.</p>
+        </header>
+
+        <!-- Filters -->
+        <div id="filters" class="mb-8 p-4 bg-gray-800 rounded-lg shadow-md">
+            <div class="flex flex-wrap items-center gap-4">
+                <span class="font-semibold text-white">Category:</span>
+                <button class="filter-button all-cats bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full active" data-filter="*">All</button>
+                <button class="filter-button bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full" data-filter="soft-trim">Soft Trim</button>
+                <button class="filter-button bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full" data-filter="hard-trim">Hard Trim</button>
+                <button class="filter-button bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full" data-filter="paint">Paint</button>
+                 <div class="relative flex-grow ml-4">
+                    <input type="text" id="search-input" class="w-full bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Search by name, color, code...">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material Grid -->
+        <div id="material-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <!-- Material cards will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="material-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+        <div class="w-full max-w-4xl bg-gray-800 rounded-lg shadow-2xl flex flex-col md:flex-row overflow-hidden" style="max-height: 90vh;">
+            <!-- 3D Preview -->
+            <div class="w-full md:w-2/3 h-64 md:h-auto bg-gray-900 relative">
+                <div id="material-canvas-container" class="w-full h-full">
+                     <div id="material-canvas"></div>
+                </div>
+                <div id="loading-indicator" class="absolute inset-0 flex items-center justify-center bg-gray-900 text-white">
+                    <svg class="animate-spin h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="ml-3">Loading 3D Preview...</span>
+                </div>
+            </div>
+
+            <!-- Material Info -->
+            <div class="w-full md:w-1/3 p-6 overflow-y-auto">
+                <div class="flex justify-between items-start">
+                    <h2 id="modal-title" class="text-2xl font-bold mb-2 text-white">Material Name</h2>
+                    <button id="close-modal" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+                <p id="modal-category" class="text-sm font-semibold text-indigo-400 uppercase mb-4">Category</p>
+                
+                <div class="space-y-3 text-sm">
+                    <div><strong class="text-gray-400 w-24 inline-block">Color:</strong> <span id="modal-color"></span></div>
+                    <div><strong class="text-gray-400 w-24 inline-block">Master Code:</strong> <span id="modal-code" class="font-mono"></span></div>
+                    <div><strong class="text-gray-400 w-24 inline-block">Program:</strong> <span id="modal-program"></span></div>
+                    <div><strong class="text-gray-400 w-24 inline-block">Status:</strong> <span id="modal-status" class="font-semibold"></span></div>
+                    <div><strong class="text-gray-400 w-24 inline-block">Responsible:</strong> <span id="modal-responsible"></span></div>
+                </div>
+
+                <div class="mt-6 border-t border-gray-700 pt-4">
+                     <p class="text-xs text-gray-500 mb-2">UNREAL ENGINE ASSET PATH</p>
+                     <div class="flex items-center gap-2">
+                        <input id="modal-ue-path" type="text" readonly class="w-full bg-gray-700 text-gray-300 border border-gray-600 rounded-md p-2 text-xs font-mono">
+                        <button id="copy-path-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded-md text-sm">Copy</button>
+                    </div>
+                    <span id="copy-feedback" class="text-xs text-green-400 mt-1 hidden">Path copied!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Mock Data ---
+        // In a real application, this would come from your local server's API.
+        const materials = [
+            {
+                id: 'INT_WovenEchoPark_FB026A-C7F_PebbleGreyHeather',
+                category: 'soft-trim',
+                type: 'WovenEchoPark',
+                color: 'Pebble Grey Heather',
+                masterCode: 'FB026A-C7F',
+                program: 'R1',
+                status: 'CMF Approved',
+                responsible: 'Limmy Park',
+                uePath: '/Game/Materials/SoftTrim/Woven/INT_WovenEchoPark_FB026A-C7F.uasset',
+                thumbnail: 'https://placehold.co/400x400/374151/E5E7EB?text=Fabric',
+                pbr: {
+                    // In a real app, these would be URLs to your textures on the local server
+                    map: 'https://placehold.co/1024x1024/6B7280/FFFFFF?text=Color',
+                    normalMap: 'https://placehold.co/1024x1024/4B5563/FFFFFF?text=Normal',
+                    roughness: 0.8
+                }
+            },
+            {
+                id: 'WHL_Paint_EXPBLK02AS_HighGlossBlack',
+                category: 'paint',
+                type: 'Paint',
+                color: 'High Gloss Black',
+                masterCode: 'EXPBLK02AS',
+                program: 'R1',
+                status: 'JEFF Approved',
+                responsible: 'N/A',
+                uePath: '/Game/Materials/Paint/WHL_Paint_EXPBLK02AS.uasset',
+                thumbnail: 'https://placehold.co/400x400/111827/E5E7EB?text=Paint',
+                pbr: {
+                    color: 0x111111,
+                    roughness: 0.1,
+                    metalness: 0.1
+                }
+            },
+            {
+                id: 'EXT_Film_DF013AA_SatinSilver',
+                category: 'hard-trim',
+                type: 'Film',
+                color: 'Satin Silver',
+                masterCode: 'DF013AA',
+                program: 'R2',
+                status: 'Applied',
+                responsible: 'N/A',
+                uePath: '/Game/Materials/HardTrim/Film/EXT_Film_DF013AA.uasset',
+                thumbnail: 'https://placehold.co/400x400/D1D5DB/1F2937?text=Metal',
+                pbr: {
+                    color: 0xD1D5DB,
+                    roughness: 0.3,
+                    metalness: 0.9
+                }
+            },
+            {
+                id: 'INT_WovenTwillWeave_ST020A-F3A_ForestEdge',
+                category: 'soft-trim',
+                type: 'WovenTwillWeave',
+                color: 'Forest Edge',
+                masterCode: 'ST020A-F3A',
+                program: 'R1',
+                status: 'JEFF Approved',
+                responsible: 'Brendan Wall',
+                uePath: '/Game/Materials/SoftTrim/Woven/INT_WovenTwillWeave_ST020A-F3A.uasset',
+                thumbnail: 'https://placehold.co/400x400/166534/E5E7EB?text=Fabric',
+                 pbr: {
+                    map: 'https://placehold.co/1024x1024/166534/FFFFFF?text=Color',
+                    normalMap: 'https://placehold.co/1024x1024/4B5563/FFFFFF?text=Normal',
+                    roughness: 0.9
+                }
+            },
+             {
+                id: 'INT_HardTrim_Wood_Ash_RT001',
+                category: 'hard-trim',
+                type: 'Wood',
+                color: 'Dark Ash',
+                masterCode: 'WD-001A',
+                program: 'R1',
+                status: 'CMF Approved',
+                responsible: 'Sophia',
+                uePath: '/Game/Materials/HardTrim/Wood/INT_Wood_Ash_Dark.uasset',
+                thumbnail: 'https://placehold.co/400x400/57534e/E5E7EB?text=Wood',
+                 pbr: {
+                    map: 'https://placehold.co/1024x1024/57534e/FFFFFF?text=Wood+Grain',
+                    normalMap: 'https://placehold.co/1024x1024/4B5563/FFFFFF?text=Normal',
+                    roughness: 0.6
+                }
+            },
+        ];
+
+        // --- DOM Elements ---
+        const grid = document.getElementById('material-grid');
+        const modal = document.getElementById('material-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const searchInput = document.getElementById('search-input');
+        const filterContainer = document.getElementById('filters');
+        
+        // --- Three.js Scene Setup ---
+        let scene, camera, renderer, mesh, controls;
+
+        function initThreeJS() {
+            const container = document.getElementById('material-canvas');
+            if(!container) return;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x111827);
+
+            camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 3;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+
+            // Mesh
+            const geometry = new THREE.SphereGeometry(1, 64, 64);
+            const material = new THREE.MeshStandardMaterial({ color: 0xcccccc });
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+            
+            // Mouse Controls
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            
+            const onMouseDown = (e) => { isDragging = true; };
+            const onMouseUp = () => { isDragging = false; };
+            const onMouseMove = (e) => {
+                if (!isDragging) return;
+                const deltaMove = {
+                    x: e.offsetX - previousMousePosition.x,
+                    y: e.offsetY - previousMousePosition.y
+                };
+                mesh.rotation.y += deltaMove.x * 0.01;
+                mesh.rotation.x += deltaMove.y * 0.01;
+                previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            };
+             const onMouseLeave = () => { isDragging = false; };
+
+
+            container.addEventListener('mousedown', onMouseDown);
+            container.addEventListener('mouseup', onMouseUp);
+            container.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('mouseleave', onMouseLeave);
+
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', () => {
+                if(container.clientWidth > 0 && container.clientHeight > 0){
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                }
+            });
+        }
+
+        function updateThreeJSMaterial(pbrData) {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            loadingIndicator.style.display = 'flex';
+            
+            // Dispose old material textures to free up GPU memory
+            if (mesh.material.map) mesh.material.map.dispose();
+            if (mesh.material.normalMap) mesh.material.normalMap.dispose();
+            if (mesh.material.roughnessMap) mesh.material.roughnessMap.dispose();
+            if (mesh.material.metalnessMap) mesh.material.metalnessMap.dispose();
+            mesh.material.dispose();
+            
+            const newMaterial = new THREE.MeshStandardMaterial();
+            const textureLoader = new THREE.TextureLoader();
+            let texturesToLoad = 0;
+
+            const onTextureLoad = () => {
+                texturesToLoad--;
+                if (texturesToLoad === 0) {
+                    loadingIndicator.style.display = 'none';
+                }
+            };
+
+            if (pbrData.map) {
+                texturesToLoad++;
+                newMaterial.map = textureLoader.load(pbrData.map, onTextureLoad);
+            }
+            if (pbrData.normalMap) {
+                texturesToLoad++;
+                newMaterial.normalMap = textureLoader.load(pbrData.normalMap, onTextureLoad);
+            }
+            // Add other maps like roughnessMap, metalnessMap if they exist
+
+            newMaterial.color = pbrData.color !== undefined ? new THREE.Color(pbrData.color) : new THREE.Color(0xffffff);
+            newMaterial.roughness = pbrData.roughness !== undefined ? pbrData.roughness : 1.0;
+            newMaterial.metalness = pbrData.metalness !== undefined ? pbrData.metalness : 0.0;
+            
+            mesh.material = newMaterial;
+            mesh.material.needsUpdate = true;
+
+            if (texturesToLoad === 0) {
+                 loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        // --- App Logic ---
+        function createMaterialCard(material) {
+            const card = document.createElement('div');
+            card.className = 'card bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer';
+            card.dataset.category = material.category;
+            card.dataset.search = `${material.id} ${material.color} ${material.type}`.toLowerCase();
+            
+            card.innerHTML = `
+                <img src="${material.thumbnail}" alt="${material.id}" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-md truncate text-white">${material.type}</h3>
+                    <p class="text-sm text-gray-400 truncate">${material.color}</p>
+                    <p class="text-xs text-indigo-400 mt-2 font-mono">${material.masterCode}</p>
+                </div>
+            `;
+            card.addEventListener('click', () => openModal(material));
+            return card;
+        }
+
+        function renderGrid(items) {
+            grid.innerHTML = '';
+            items.forEach(material => {
+                grid.appendChild(createMaterialCard(material));
+            });
+        }
+
+        function openModal(material) {
+            document.getElementById('modal-title').textContent = material.type;
+            document.getElementById('modal-category').textContent = material.category.replace('-', ' ');
+            document.getElementById('modal-color').textContent = material.color;
+            document.getElementById('modal-code').textContent = material.masterCode;
+            document.getElementById('modal-program').textContent = material.program;
+            document.getElementById('modal-status').textContent = material.status;
+            document.getElementById('modal-responsible').textContent = material.responsible;
+            document.getElementById('modal-ue-path').value = material.uePath;
+            
+            updateThreeJSMaterial(material.pbr);
+            
+            modal.classList.remove('hidden');
+            // Force resize to fix canvas sizing issue on first open
+             setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+        }
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                 modal.classList.add('hidden');
+            }
+        });
+
+        // Filtering Logic
+        let currentFilter = '*';
+        let currentSearch = '';
+
+        function applyFilters() {
+            const cards = grid.querySelectorAll('.card');
+            cards.forEach(card => {
+                const categoryMatch = currentFilter === '*' || card.dataset.category === currentFilter;
+                const searchMatch = currentSearch === '' || card.dataset.search.includes(currentSearch);
+                
+                if (categoryMatch && searchMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-button')) {
+                filterContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.filter;
+                applyFilters();
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            applyFilters();
+        });
+
+        // Copy Path Logic
+        const copyBtn = document.getElementById('copy-path-btn');
+        const copyFeedback = document.getElementById('copy-feedback');
+        copyBtn.addEventListener('click', () => {
+            const pathInput = document.getElementById('modal-ue-path');
+            // A bit of a hack for clipboard API in secure contexts
+            const textarea = document.createElement('textarea');
+            textarea.value = pathInput.value;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            copyFeedback.classList.remove('hidden');
+            setTimeout(() => {
+                copyFeedback.classList.add('hidden');
+            }, 2000);
+        });
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGrid(materials);
+            initThreeJS();
+        });
+
+    </script>
+</body>
+</html>

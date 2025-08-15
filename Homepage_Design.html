@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hammerbanger.com - Roblox News & More</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Styles from your global.css */
+        :root {
+            --color-primary: #FF416C;
+            --color-news: #00A2FF;
+            --color-players: #00C853;
+            --color-creators: #FFD600;
+            --color-background: #F4F6F8;
+            --color-surface: #FFFFFF;
+            --color-text: #212529;
+            --color-text-muted: #6c757d;
+            --font-family: 'Inter', sans-serif;
+        }
+        html[data-theme='dark'] {
+            --color-primary: #af7ac5;
+            --color-news: #33B5FF;
+            --color-players: #33D17A;
+            --color-creators: #FFDE33;
+            --color-background: #12181B;
+            --color-surface: #1E272E;
+            --color-text: #E1E3E5;
+            --color-text-muted: #9DA5AD;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-background);
+            color: var(--color-text);
+        }
+        .bg-surface { background-color: var(--color-surface); }
+        .text-muted { color: var(--color-text-muted); }
+        .category-news { background-color: var(--color-news); }
+        .category-players { background-color: var(--color-players); }
+        .category-creators { background-color: var(--color-creators); color: #212529; }
+        .card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-summary {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 shadow-md" style="background-image: linear-gradient(to right, #FF416C, #FF4B2B);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="/" class="text-2xl font-extrabold text-white">Hammerbanger.com</a>
+                    </div>
+                    <nav class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="/players/" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium">Players</a>
+                            <a href="/creators/" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                            <a href="/news/" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium">News</a>
+                            <a href="/3d-catalog/" class="text-white hover:opacity-80 px-3 py-2 rounded-md text-sm font-medium">3D Catalog</a>
+                        </div>
+                    </nav>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6 gap-4">
+                        <input id="desktop-search" type="search" placeholder="Search..." class="bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border-transparent rounded-md py-2 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-white">
+                        <button id="theme-toggle" aria-label="Toggle theme" class="bg-white bg-opacity-20 border border-white/30 rounded-full w-10 h-10 flex items-center justify-center">
+                            <!-- SVG will be injected by JS -->
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-button" type="button" class="bg-white bg-opacity-20 inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-opacity-30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/players/" class="text-white hover:opacity-80 block px-3 py-2 rounded-md text-base font-medium">Players</a>
+                <a href="/creators/" class="text-white hover:opacity-80 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="/news/" class="text-white hover:opacity-80 block px-3 py-2 rounded-md text-base font-medium">News</a>
+                <a href="/3d-catalog/" class="text-white hover:opacity-80 block px-3 py-2 rounded-md text-base font-medium">3D Catalog</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div id="articles-container" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <!-- Articles will be loaded here -->
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background-image: linear-gradient(to right, #FF416C, #FF4B2B);" class="mt-8">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center text-white">
+            <div class="footer-newsletter mb-8">
+                <p class="text-lg font-semibold mb-4">Subscribe to our newsletter!</p>
+                <form class="flex justify-center gap-2">
+                    <input type="email" placeholder="Your E-Mail" class="bg-white/20 border border-white/30 text-white placeholder-white/70 rounded-md py-2 px-4 w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-white">
+                    <button type="submit" class="bg-white text-black font-bold py-2 px-6 rounded-md hover:bg-gray-200 transition-colors">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-legal text-sm text-white/80">
+                <p>Copyright © 2025 hammerbanger.com | Fjord LLC</p>
+                <p>530-B Harkle Road, Ste 100, Santa Fe, NM 87505</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_URL = 'https://hammerbanger.com/api/';
+            const articlesContainer = document.getElementById('articles-container');
+
+            const fetchArticles = async () => {
+                try {
+                    // FIX: Using a different public CORS proxy to resolve the fetch error.
+                    const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
+                    const response = await fetch(`${PROXY_URL}${API_URL}?get=articles`);
+                    if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+                    const articles = await response.json();
+                    displayArticles(articles);
+                } catch (error) {
+                    console.error('CRITICAL ERROR fetching articles:', error);
+                    if(articlesContainer) articlesContainer.innerHTML = `<p class="col-span-full text-center text-red-500">Could not load articles. Please check the API connection.</p>`;
+                }
+            };
+
+            const displayArticles = (articles) => {
+                if (!articlesContainer || !Array.isArray(articles)) return;
+                
+                const featuredArticle = articles.find(a => a.is_featured == 1);
+                const otherArticles = articles.filter(a => a.is_featured != 1);
+
+                let elements = '';
+                if (featuredArticle) {
+                    elements += createArticleCard(featuredArticle, 'featured');
+                }
+
+                // Define a more robust layout pattern
+                const layoutPattern = ['sidebar', 'sidebar', 'medium', 'medium', 'tall', 'medium', 'medium'];
+                otherArticles.forEach((article, index) => {
+                    const type = layoutPattern[index % layoutPattern.length];
+                    elements += createArticleCard(article, type);
+                });
+
+                articlesContainer.innerHTML = elements;
+            };
+
+            const createArticleCard = (article, type) => {
+                // FIX: Point links to article.html with a slug query parameter
+                const linkUrl = `article.html?slug=${article.slug}`;
+                const categoryClass = `category-${article.category.toLowerCase()}`;
+                const formattedDate = new Date(article.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const imagePath = article.image_path || `https://placehold.co/600x400/EEE/31343C?text=${article.category}`;
+
+                const categoryHTML = `<span class="${categoryClass} text-white text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full self-start mb-3">${article.category}</span>`;
+                const titleHTML = `<h3 class="font-bold text-lg">${article.title}</h3>`;
+                const summaryHTML = article.summary ? `<p class="mt-1 text-sm text-muted card-summary">${article.summary}</p>` : '<div class="card-summary"></div>';
+                // FIX: Always include date
+                const dateHTML = `<p class="mt-2 text-sm text-muted pt-2">${formattedDate}</p>`;
+
+                let cardClasses = 'card bg-surface rounded-lg shadow-lg overflow-hidden';
+                let imageContainer = '';
+                let contentContainer = '';
+
+                switch (type) {
+                    case 'featured':
+                        cardClasses += ' md:col-span-4 lg:col-span-4 lg:row-span-2';
+                        return `
+                            <a href="${linkUrl}" class="${cardClasses} !flex-row">
+                                <div class="w-1/2 hidden lg:block">
+                                    <img class="h-full w-full object-cover" src="${imagePath}" onerror="this.parentElement.style.display='none'">
+                                </div>
+                                <div class="p-6 flex flex-col justify-between lg:w-1/2 w-full">
+                                    <div>
+                                        ${categoryHTML}
+                                        <h2 class="mt-2 text-2xl md:text-3xl font-bold leading-tight">${article.title}</h2>
+                                        <p class="mt-2 text-muted">${article.summary}</p>
+                                    </div>
+                                    ${dateHTML}
+                                </div>
+                            </a>`;
+                    
+                    case 'tall':
+                        cardClasses += ' md:col-span-2 lg:col-span-2 lg:row-span-2';
+                        imageContainer = `<img class="h-64 w-full object-cover" src="${imagePath}" onerror="this.style.display='none'">`;
+                        break;
+                        
+                    case 'sidebar':
+                    case 'medium':
+                    default:
+                        cardClasses += ' md:col-span-2 lg:col-span-2';
+                        imageContainer = `<img class="h-40 w-full object-cover" src="${imagePath}" onerror="this.style.display='none'">`;
+                        break;
+                }
+                
+                contentContainer = `
+                    <div class="p-4 card-content">
+                        ${categoryHTML}
+                        ${titleHTML}
+                        ${summaryHTML}
+                        ${dateHTML}
+                    </div>`;
+
+                return `<a href="${linkUrl}" class="${cardClasses}">${imageContainer}${contentContainer}</a>`;
+            };
+            
+            fetchArticles();
+
+            // --- UI Interactions ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            }
+
+            const setupSearch = (inputId) => {
+                const searchInput = document.getElementById(inputId);
+                if (searchInput) {
+                    searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            const query = searchInput.value.trim();
+                            if (query) window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                        }
+                    });
+                }
+            };
+            setupSearch('desktop-search');
+
+            // --- Theme Toggle ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`;
+            const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`;
+            
+            function applyTheme() {
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    if(themeToggleBtn) themeToggleBtn.innerHTML = sunIcon;
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    if(themeToggleBtn) themeToggleBtn.innerHTML = moonIcon;
+                }
+            }
+
+            if(themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', () => {
+                    const currentTheme = localStorage.getItem('theme');
+                    if (currentTheme === 'dark') {
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        localStorage.setItem('theme', 'dark');
+                    }
+                    applyTheme();
+                });
+            }
+            applyTheme();
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+Projektübersicht: Hammerbanger.com – Roblox Website (Vollständig)
+Dieses Dokument skizziert den detaillierten Plan für die Entwicklung einer hochperformanten, SEO-freundlichen und monetarisierbaren statischen Website für Roblox-Inhalte unter der Domain https://hammerbanger.com. Die Website wird lokal in Visual Studio Code entwickelt und verwaltet, mit einem Fokus auf einfache Wartung, globale Designanpassungen und einen optimierten Workflow für die Inhaltserstellung.
+
+1. Projektziel
+Das Hauptziel ist die Erstellung einer schnellen, optisch ansprechenden und suchmaschinenoptimierten Website, die sich auf Roblox-Inhalte konzentriert. Das Design soll zentral über eine einzige globale CSS-Datei steuerbar sein, um zukünftige Designänderungen effizient zu gestalten. Die Website soll für die Monetarisierung vorbereitet sein und alle empfohlenen Google SEO-Praktiken integrieren. Die Website muss vollständig responsiv sein und auf allen Geräten (Mobile, Tablet, Desktop) optimal funktionieren.
+
+2. Seitenstruktur und Komponenten
+Die Website wird aus vier Hauptseitentypen bestehen, die jeweils aus wiederverwendbaren Bausteinen aufgebaut sind:
+
+Homepage (Startseite):
+
+Die Hauptseite der Domain (https://hammerbanger.com).
+
+Zeigt die neuesten Artikel, sortiert nach Veröffentlichungsdatum.
+
+Ein "Featured Article" wird prominent oben auf der Seite platziert.
+
+Inhalt wird dynamisch aus den Artikel-Metadaten generiert und in Artikelkarten dargestellt.
+
+Kategorieseite:
+
+Seiten, die Inhalte nach Kategorien filtern (z.B. "Players", "Creators", "News").
+
+Funktioniert ähnlich wie die Homepage, zeigt aber nur Artikel der jeweiligen Kategorie.
+
+Kategorien werden durch die Verzeichnisstruktur abgebildet (z.B. /players/, /creators/, /news/).
+
+Artikelseite:
+
+Detailseiten für einzelne Artikel, Nachrichten oder Blogbeiträge.
+
+Zeigt den vollständigen Inhalt eines Artikels.
+
+Artikel werden durch die Verzeichnisstruktur abgebildet (z.B. /players/artikel-001/, /creators/artikel-001/, /news/artikel-001/).
+
+3D-Modellkatalog und Viewer-Seite:
+
+Eine dedizierte Seite für den 3D-Modellkatalog und den Viewer.
+
+Ermöglicht das Laden und Betrachten von .glb-3D-Modellen mit three.js.
+
+Der Katalog wird über Thumbnails navigierbar sein.
+
+Alle Seiten teilen sich die folgenden globalen Komponenten:
+
+Header:
+
+Navigationsmenü (inkl. Link zum 3D-Modellkatalog).
+
+Umschalter für den Dunkel-/Hellmodus (Dark/Light Mode Switch).
+
+Suchfeld für die Websitensuche.
+
+Hauptinhaltsbereich (Main Content Page):
+
+Enthält den spezifischen Inhalt der jeweiligen Seite.
+
+Breadcrumbs: Navigationspfad zur besseren Orientierung des Nutzers und zur SEO-Optimierung.
+
+Related Articles (Verwandte Artikel):
+
+Erscheint direkt nach dem Hauptinhaltsbereich auf Artikelseiten.
+
+Zeigt eine Auswahl von thematisch ähnlichen Artikeln an.
+
+Footer:
+
+Enthält rechtliche Informationen (Impressum, Copyright).
+
+Copyright-Informationen: Copyright © 2025 hammerbanger.com | Fjord LLC
+
+Adresse: 530-B Harkle Road, Ste 100, Santa Fe, NM 87505
+
+Newsletter-Anmeldung: Ein Eingabefeld für die E-Mail-Adresse des Besuchers mit einem "Subscribe"-Button.
+
+3. Design-Prinzipien
+Globale CSS-Steuerung: Das gesamte Design der Website wird über eine einzige, zentrale CSS-Datei (global.css) gesteuert. Dies ermöglicht es, Designänderungen (Farben, Schriftarten, Layouts) durch die Anpassung dieser einen Datei global auf alle Seiten anzuwenden.
+
+Farbenfroh und spielerisch: Das Design wird eine lebendige und ansprechende Ästhetik aufweisen, die die "farbenfroh, bunt, fröhlich, happy" Natur von Roblox widerspiegelt, basierend auf der bereitgestellten Farbpalette (z.B. Orange/Rot für Header, Grün für Kategorie-Tags).
+
+Schriftarten: Es werden schnelle, einfache und super lesbare Google Fonts verwendet, die auf allen Geräten optimal funktionieren. Vorschläge umfassen Inter oder Roboto.
+
+Artikelkarten-Layout: Artikel werden in einem übersichtlichen Kartenformat präsentiert, ähnlich dem bereitgestellten Beispiel. Jede Artikelkarte enthält ein Bild, die Kategorie, den Titel und zwei Zeilen kurzen Text. Beim Klicken auf die Karte wird der vollständige Artikel geladen.
+
+Dunkel-/Hellmodus: Eine Umschaltfunktion im Header ermöglicht es den Nutzern, zwischen einem hellen und einem dunklen Farbschema zu wechseln. Die Farbschemata werden über CSS-Variablen in der global.css definiert, wobei der Dark Mode eine gut lesbare dunkle Palette bietet, die die Farbthemen des Light Mode aufgreift. Die Schriftart bleibt dabei primär gleich.
+
+Responsives Design: Die Website wird vollständig responsiv gestaltet, um eine optimale Darstellung und Benutzerfreundlichkeit auf allen Geräten (Desktop, Tablet, Mobiltelefon) zu gewährleisten.
+
+4. Technische Anforderungen und Umsetzung
+Statische Website: Die Website wird als statische Website implementiert, um maximale Leistung und Sicherheit zu gewährleisten.
+
+Standard-Webtechnologien: Es werden ausschließlich HTML, CSS und JavaScript verwendet. Der Einsatz von Plugins wird auf ein Minimum reduziert.
+
+Performance-Optimierung: Ein Hauptaugenmerk liegt auf der Geschwindigkeit der Website. Dies beinhaltet:
+
+Optimierung von Bildern und Medien (Verwendung von .webp-Formaten).
+
+Minimierung von CSS- und JavaScript-Dateien.
+
+Lazy Loading: Lazy Loading wird für alle Bilder außerhalb des Viewports implementiert, um die Ladezeiten zu optimieren.
+
+Einhaltung der Core Web Vitals mit dem Ziel, alle Lighthouse-Scores auf "Grün" und maximale Punktzahl zu bringen (inkl. CSS-Kompression und ähnlichen Techniken).
+
+Keine alert() oder confirm(): Für Benutzerinteraktionen werden benutzerdefinierte Modale anstelle von Browser-Popups verwendet.
+
+4.1. Workflow für Artikel- und Inhaltsverwaltung (Ohne Node.js auf Ihrer Seite)
+Um die manuelle Pflege von Inhaltslisten zu vermeiden, wird ein optimierter Workflow implementiert, bei dem ich die technische Generierung übernehme:
+
+Artikel-Template (HTML): Ein universelles HTML-Template für Artikelseiten wird erstellt, das das Layout, globale CSS-Verweise und JavaScript-Hooks enthält.
+
+Ihre Artikel-Inhalte: Sie liefern den Artikeltext in einem HTML-formatierten Snippet (z.B. <p>...</p><h2>...</h2>) für den Hauptinhalt.
+
+Metadaten-Bereitstellung: Zusammen mit dem Artikeltext stellen Sie die notwendigen Metadaten in einem klaren, strukturierten Format (z.B. JSON-Snippet oder Liste) bereit: title, category, summary, image (Pfad zur .webp-Datei), date (Veröffentlichungsdatum), featured (Boolean).
+
+Meine Aufgabe (Generierung):
+
+Ich füge Ihren HTML-Artikeltext in das Artikel-Template ein, um die vollständige, eigenständige HTML-Datei für den neuen Artikel zu erstellen (z.B. /news/mein-neuer-artikel/index.html).
+
+Ich aktualisiere die zentrale JavaScript-Datei js/articles-data.js mit den Metadaten Ihres neuen Artikels (und aller bestehenden Artikel). Diese Datei wird alle Artikel-Metadaten enthalten und von der Homepage und den Kategorieseiten gelesen.
+
+Ihre Aufgabe (Deployment): Ich stelle Ihnen die generierte Artikel-HTML-Datei und die aktualisierte js/articles-data.js-Datei zur Verfügung, die Sie dann in Ihrem Projekt ersetzen.
+
+4.2. Interaktivität (Vanilla JavaScript)
+Suchfunktion:
+
+Die Suche wird auf die Metadaten (Titel, Kategorie, Zusammenfassung) beschränkt, um die Dateigröße der articlesData.js zu kontrollieren.
+
+Die Suchergebnisse werden auf einer separaten Suchergebnisseite präsentiert, die dynamisch mit JavaScript basierend auf den gefilterten Artikeln aus der articlesData.js generiert wird.
+
+Kommentarbereich: Wird vorerst weggelassen.
+
+Newsletter-Anmeldung: Das Eingabefeld im Footer wird eine einfache Formularfunktionalität bieten. Da es sich um eine statische Website handelt, müsste die eigentliche E-Mail-Verarbeitung über einen Drittanbieterdienst (z.B. Mailchimp, SendGrid) erfolgen, dessen API-Endpunkt im JavaScript integriert wird.
+
+4.3. 3D-Modellkatalog und Viewer (three.js)
+Modell-Referenzen: Eine separate JavaScript-Datei (js/models-data.js) wird ein Array von Objekten enthalten. Jedes Objekt repräsentiert ein 3D-Modell mit Metadaten wie id, name, description, thumbnail (Pfad zum 2D-Thumbnail-Bild im .webp-Format) und glbPath (Pfad zur .glb-Datei).
+
+Katalog-UI: Der Katalog wird als eine Grid-Ansicht von 2D-Thumbnail-Bildern auf der dedizierten HTML-Seite für den 3D-Modellkatalog implementiert.
+
+Viewer-Interaktion: Beim Klicken auf ein Thumbnail wird das entsprechende .glb-Modell im three.js-Viewer auf derselben Seite oder in einer modalen Ansicht geladen. Standard-Interaktionen wie Drehen mit der Maus (Orbit Controls), Zoom und Pan werden implementiert.
+
+5. SEO & Monetarisierung
+Sitemap.xml: Eine .xml-Sitemap wird von mir basierend auf den generierten URLs erstellt und Ihnen zur Verfügung gestellt.
+
+Google SEO Best Practices: Alle wichtigen und empfohlenen Google SEO-Optimierungen werden umgesetzt. Dies beinhaltet:
+
+Schema Markups: Implementierung relevanter JSON-LD Schema Markups direkt im <head>-Bereich der generierten HTML-Dateien: Article (für Artikelseiten), WebPage (für allgemeine Seiten, Homepage, Kategorieseiten), BreadcrumbList (für die Breadcrumbs). Zusätzlich werden relevante Schemas für VideoObject (falls Videos eingebunden werden), ImageObject und Organization in Betracht gezogen.
+
+Saubere URLs, aussagekräftige Meta-Beschreibungen, korrekte Alt-Texte für Bilder, semantisches HTML5, schnelle Ladezeiten und Mobilfreundlichkeit sind Kernpunkte.
+
+Monetarisierung: Die Website wird so konzipiert, dass sie zukünftige Monetarisierungsstrategien unterstützt, einschließlich Google AdSense, Affiliate-Links und Links zu Shops wie Gumroad. Die Struktur wird flexibel gestaltet, um verschiedene Monetarisierungsformen zu integrieren.
+
+6. Entwicklungsumgebung
+Lokaler Entwicklungspfad: Ein dedizierter Projektordner, der in Visual Studio Code geöffnet wird.
+
+Lokaler Test-Server: http://127.0.0.1 (mittels der "Live Server" VS Code Extension).
+
+Live-Domain: https://hammerbanger.com
+
+7. Verzeichnisstruktur
+Alle Bilder, Audio-Dateien und andere Mediendateien werden zentral in einem Verzeichnis /media gespeichert. Bilder werden im .webp-Format vorliegen.
+
+Die globale CSS-Datei wird an einem leicht zugänglichen Ort platziert, idealerweise im Stammverzeichnis oder einem /css-Unterverzeichnis.
+
+Artikel werden in kategoriebasierten Verzeichnissen gespeichert (z.B. /players/, /creators/, /news/).
+
+8. Rechtliche Hinweise
+Die rechtlichen Informationen (Impressum, Copyright) sind zentral in der Footer-Komponente hinterlegt.
+
+Copyright & Firma: Copyright © 2025 hammerbanger.com | Fjord LLC
+
+Adresse: 530-B Harkle Road, Ste 100, Santa Fe, NM 87505
+
+9. Sprache und Internationalisierung
+Die primäre Sprache des Inhalts und der Benutzeroberfläche wird US-Englisch sein und im Root-Verzeichnis der Domain liegen (z.B. https://hammerbanger.com/news/my-article/).
+
+Mehrsprachigkeit (zukünftige Planung): Die Website-Struktur wird so konzipiert, dass eine spätere Erweiterung um zusätzliche Sprachen (z.B. Spanisch, Portugiesisch, Chinesisch, Japanisch, Deutsch) möglich ist, ohne Duplicate-Content-Strafen zu riskieren. Zusätzliche Sprachen erhalten dann ihre eigenen Unterverzeichnisse (z.B. https://hammerbanger.com/de/news/mein-artikel/). Die Artikel müssten dann in die jeweilige Sprache übersetzt werden.
+
+hreflang-Tags: Ich werde die korrekten hreflang-Tags in den <head>-Bereich jeder Sprachversion einfügen, um Suchmaschinen über die alternativen Sprachversionen zu informieren und Duplicate Content zu vermeiden (gemäß Neil Patel Empfehlungen).
+
+10. Zukünftige Erweiterungen (Planung)
+Forum: Die Struktur wird eine zukünftige Integration eines Forums berücksichtigen.
+
+11. Nächste Schritte
+Basierend auf dieser umfassenden Projektübersicht werden wir mit der Implementierung der grundlegenden HTML-Struktur, der globalen CSS-Datei und der JavaScript-Funktionalität für den Dunkel-/Hellmodus und die Artikelkarten beginnen. Anschließend werden wir einen Beispiel-Nachrichtenartikel erstellen und diesen in das globale Design integrieren.
+
+
+
+Absolut. Danke für die Erinnerung, das ist der entscheidende Punkt. Mein letzter Code war unvollständig.
+
+"Mix"-Ansatz (lokale Entwicklung, Online-Datenbank).

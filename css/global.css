@@ -1,0 +1,492 @@
+/* ========= GRUNDLAGEN & DESIGN-SYSTEM ========= */
+:root {
+    /* * ADJUST THIS: This is the main control panel for your site's design.
+     * Changing these variables will update the style across the entire website.
+     */
+
+    /* Farben (Light Mode) */
+    --color-primary: #FF416C; /* ADJUST THIS: Main accent color (links, borders, etc.) */
+    
+    --color-news: #00A2FF; /* ADJUST THIS: Background color for the 'News' category tag. */
+    --color-players: #00C853; /* ADJUST THIS: Background color for the 'Players' category tag. */
+    --color-creators: #FFD600; /* ADJUST THIS: Background color for the 'Creators' category tag. */
+    --color-creators-text: #212529;
+    
+    --color-subscribe-button: #FFFFFF;
+    --color-subscribe-text: #212529;
+    
+    --color-background: #F4F6F8; /* ADJUST THIS: Main page background color. */
+    --color-surface: #FFFFFF;    /* ADJUST THIS: Background color for cards and other surfaces. */
+    --color-text: #212529;        /* ADJUST THIS: Main text color. */
+    --color-text-muted: #6c757d;  /* ADJUST THIS: Color for less important text (dates, etc.). */
+    --color-border: #DEE2E6;
+    --color-featured-border: #212529;
+
+    /* Schriftart & Typografie */
+    --font-family: 'Inter', sans-serif; /* ADJUST THIS: The font for the entire site. */
+    --font-size-base: 16px;             /* ADJUST THIS: The base font size. */
+    --line-height-base: 1.7;
+
+    /* Sonstiges */
+    --border-radius: 8px; /* ADJUST THIS: Controls the roundness of corners on cards, buttons, etc. */
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition-speed: 0.15s;
+
+    /* == Anpassbare Variablen für die Pinned Card == */
+    --pinned-card-height: 350px; /* ADJUST THIS: The height of the large pinned article on the homepage. */
+    --pinned-image-width: 40%;   /* ADJUST THIS: The width of the image in the pinned article. */
+}
+
+html[data-theme='dark'] {
+    /* * ADJUST THIS: These variables override the default values when the dark theme is active.
+     */
+    --color-primary: #8ebbff;
+    
+    --color-news: #2980b9;
+    --color-players: #27ae60;
+    --color-creators: #f1c40f;
+    --color-creators-text: #212529;
+
+    --color-background: #181a1b;
+    --color-surface: #23272a;
+    --color-text: #f5f6fa;
+    --color-text-muted: #b2bec3;
+    --color-border: #353b48;
+    --color-featured-border: #f5f6fa;
+    
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ========= GLOBALE STILE ========= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { font-size: var(--font-size-base); }
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: var(--line-height-base);
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+.container { max-width: 1320px; margin: 0 auto; padding: 0 2rem; }
+
+a { 
+    color: #459fff; /* ADJUST THIS: This is now the single color for all hyperlinks. */
+    text-decoration: none; 
+    font-weight: 600; 
+}
+a.article-card:hover, a.featured-article:hover, a.pinned-article-card:hover { text-decoration: none !important; }
+
+img { max-width: 100%; display: block; }
+
+/* ========= HEADER ========= */
+header {
+    background-image: linear-gradient(to right, #FF416C, #FF4B2B);
+    border-bottom: none;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--box-shadow);
+    transition: background-image var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    border-bottom: 2px solid #ff007b;
+}
+
+html[data-theme='dark'] header {
+    background-image: linear-gradient(to right, #6a11cb, #2575fc);
+    border-bottom: 2px solid #2575fc;
+}
+
+header .container { display: flex; justify-content: space-between; align-items: center; }
+header .logo, header nav a { color: #FFFFFF; }
+header .logo { font-size: 1.4rem; font-weight: 800;margin-left: 5px;}
+header .logo:hover, header nav a:hover { text-decoration: none; opacity: 0.8; }
+header nav { display: flex; gap: 1.5rem; }
+header nav a { transition: opacity var(--transition-speed) ease; }
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+
+#theme-toggle {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#theme-toggle svg { width: 24px; height: 24px; color: #FFFFFF; }
+
+input[type="search"] { 
+    border: 1px solid transparent; 
+    background-color: rgba(255, 255, 255, 0.2); 
+    padding: 0.5rem 1rem; 
+    border-radius: var(--border-radius);
+    color: #FFFFFF;
+}
+input[type="search"]::placeholder { color: rgba(255, 255, 255, 0.7); }
+
+#mobile-menu-toggle { display: none; flex-direction: column; justify-content: space-around; width: 36px; height: 36px; background: transparent; border: none; cursor: pointer; padding: 0; z-index: 10000; }
+#mobile-menu-toggle span { width: 100%; height: 3px; background-color: #FFFFFF; border-radius: 2px;  }
+
+/* ========= MAIN CONTENT STACKING FIX ========= */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* ========= ARTICLE PAGE STYLES ========= */
+.article-container {
+    padding-top: 1.5rem; /* ADJUST THIS: Controls the gap between the site header and the article image. */
+}
+
+.article-container .article-header {
+    background: none !important;
+    box-shadow: none;
+    padding: 2rem 0 0 0; 
+    position: static;
+    text-align: left;
+}
+
+.article-container .article-header h1 {
+    color: var(--color-text);
+    font-size: 2.2em; /* ADJUST THIS: Font size of the main article headline. */
+    line-height: 1.0;
+}
+
+.article-container .article-header h2 {
+    color: var(--color-text);
+    font-size: 1.6rem; /* ADJUST THIS: Font size of the main article headline. */
+    line-height: 0.8;
+}
+
+.article-body h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.article-body h1 {
+    font-size: 2.0rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.article-body h3 {
+    font-size: 1.6rem !important;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    color: var(--color-primary);
+    line-height: 1.6;
+}
+
+.article-body p {
+    font-size: 1rem !important;
+    font-weight: 400;
+
+}
+
+.article-container .article-meta {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem; /* ADJUST THIS: Controls the gap between the date and the breadcrumbs below it. */
+}
+
+.breadcrumbs {
+    margin-top: 0;
+    padding-bottom: 0rem; /* ADJUST THIS: Controls the gap below the breadcrumbs. */
+    font-size: 1.2rem !important;
+    line-height: 1.3;
+    color: var(--color-text-muted);
+}
+
+.article-body blockquote {
+    background-color:  #ffe8e3; /* ADJUST THIS: Background color for blockquotes in light mode. */
+    border-left: 5px solid var(--color-primary); /* ADJUST THIS: Color of the left border on blockquotes. */
+    padding: 1.5rem; /* ADJUST THIS: Inner spacing of the blockquote. */
+    margin: 1.5rem 0;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.5em;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+html[data-theme='dark'] .article-body blockquote {
+    background-color: rgb(48, 69, 85); /* ADJUST THIS: Background color for blockquotes in dark mode. */
+}
+
+
+/* ========= HOMEPAGE - LAYOUT ========= */
+
+#pinned-article-container {
+    padding: 3rem 0 1rem; /* Adjusted padding to align with grid */
+}
+
+.pinned-article-card {
+    display: flex;
+    width: 100%;
+    height: var(--pinned-card-height);
+    background: var(--color-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+.pinned-article-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.pinned-article-image {
+    flex-basis: var(--pinned-image-width);
+    flex-shrink: 0;
+    width: var(--pinned-image-width);
+    height: 100%;
+    object-fit: cover;
+}
+.pinned-article-content {
+    flex-grow: 1;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.pinned-article-content .article-card-title {
+    font-size: 2.5rem;
+}
+.pinned-article-content .article-card-summary {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    font-weight: 200 !important;
+}
+.pinned-article-content .article-card-date {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+
+/* --- THIS IS THE FIX --- */
+/* This rule now applies to the homepage, category, search, and related articles pages */
+#articles-grid, #category-articles-grid, #search-results-grid, .related-articles-container .article-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    gap: 1.5rem; 
+    padding-top: 1rem;
+}
+
+.article-card {
+    background: var(--color-surface);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.article-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+}
+.article-card-image { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+.article-card-content { 
+    padding: 1.5rem; 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.article-card-category {
+    color: white; 
+    padding: 0.3rem 0.8rem; 
+    border-radius: 50px; 
+    font-size: 0.8rem; 
+    align-self: flex-start; 
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.category-news { background-color: var(--color-news); }
+.category-players { background-color: var(--color-players); }
+.category-creators { background-color: var(--color-creators); color: var(--color-creators-text); }
+
+
+.article-card-title { 
+    font-size: 1.3rem; 
+    margin-bottom: 0.5rem; 
+    color: var(--color-text);
+    line-height: 1.3; 
+}
+.article-card-summary { 
+    font-size: 0.95rem; 
+    color: var(--color-text-muted);
+    flex-grow: 1; 
+    font-weight: 100 !important;
+}
+
+.article-card-date {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: auto; 
+    padding-top: 1rem;
+}
+
+.featured-article {
+    display: flex;
+    flex-direction: row;
+    gap: 0; 
+    align-items: stretch;
+    padding: 0;
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    overflow: hidden;
+}
+.featured-article:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.featured-article-image {
+    flex-basis: 45%;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+.featured-article-content {
+    flex-basis: 55%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.featured-article .article-card-title {
+    font-size: 2rem;
+}
+
+@media (max-width: 800px) {
+    .featured-article {
+        flex-direction: column;
+    }
+    .featured-article-image {
+        flex-basis: auto;
+        width: 100%;
+        height: 250px;
+    }
+    .featured-article-content {
+        padding: 1.5rem;
+    }
+    .pinned-article-card {
+        flex-direction: column;
+        height: auto;
+    }
+    .pinned-article-image {
+        width: 100%;
+        height: 250px;
+    }
+    .pinned-article-content {
+        padding: 1.5rem;
+    }
+    .pinned-article-content .article-card-title {
+        font-size: 1.8rem;
+    }
+
+    .related-articles-container .article-grid {
+        display: block;
+        gap: 0;
+    }
+    .related-articles-container .article-card {
+        margin: 0 0 1.5rem 0;
+        width: 100%;
+    }
+}
+
+
+/* ========= FOOTER ========= */
+footer {
+    background-image: linear-gradient(to right, #FF416C, #FF4B2B);
+    border-top: none;
+    margin-top: 4rem;
+    padding: 3rem 0;
+    text-align: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+}
+
+html[data-theme='dark'] footer {
+    background-image: linear-gradient(to right, #6a11cb, #2575fc);
+    border-top: 1px solid #2575fc;
+}
+html[data-theme='dark'] footer, html[data-theme='dark'] footer p, html[data-theme='dark'] footer a {
+    color: rgba(255,255,255,0.8);
+}
+
+
+footer .footer-newsletter { margin-bottom: 2rem; }
+footer .footer-newsletter input { 
+    padding: 0.8rem; 
+    border-radius: var(--border-radius);
+    min-width: 300px;
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #FFFFFF;
+}
+footer .footer-newsletter input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+
+footer .footer-newsletter button { 
+    background-color: var(--color-subscribe-button); 
+    color: var(--color-subscribe-text); 
+    padding: 0.8rem 1.5rem; 
+    border: none; 
+    border-radius: var(--border-radius); 
+    cursor: pointer;
+    font-weight: 600; 
+}
+
+/* ========= RESPONSIVE - MOBILE MENU ========= */
+@media (max-width: 800px) {
+    #main-nav, .header-actions input[type="search"] { display: none; }
+    #mobile-menu-toggle { display: flex; }
+    
+    #main-nav.mobile-nav-open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-background);
+        z-index: 9999;
+    }
+
+    #main-nav.mobile-nav-open a {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-text);
+    }
+}
+
+/* --- UPDATED RESPONSIVE GRID --- */
+@media (max-width: 900px) {
+    #articles-grid, #category-articles-grid, #search-results-grid, .related-articles-container .article-grid {
+        /* On smaller screens, stack to a single column */
+        grid-template-columns: 1fr;
+    }
+    .container {
+        padding: 0 1rem; /* Add some padding back for mobile */
+    }
+    #pinned-article-container {
+        padding: 1.5rem 0;
+    }
+}

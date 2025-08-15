@@ -1,0 +1,13 @@
+/* ========= CATEGORY PAGE LAYOUT ========= */
+.category-header {
+    padding: 3rem 0;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 3rem;
+}
+
+.category-header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+}

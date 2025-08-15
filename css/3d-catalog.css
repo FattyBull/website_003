@@ -1,0 +1,241 @@
+/* --- 3D CATALOG SPECIFIC STYLES --- */
+
+/* --- Sticky Wrapper --- */
+.sticky-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+    background: #ffffff; 
+    padding-bottom: 1rem;
+}
+
+/* --- Layout Structure --- */
+.viewer-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; 
+    background-color: #282c34;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#viewer-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* --- Collapsible Sidebar Styles --- */
+.viewer-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    /* Start with the panel hidden, but leave the button visible */
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.viewer-sidebar.is-open {
+    /* When open, move it into view */
+    transform: translateX(0);
+}
+
+.sidebar-toggle {
+    position: absolute;
+    right: 100%; 
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(26, 29, 35, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    width: 28px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px 0 0 8px;
+    padding: 0;
+    margin-right: -1px; /* Overlap border for a seamless look */
+}
+
+.sidebar-toggle .arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.4s ease;
+}
+
+.viewer-sidebar.is-open .sidebar-toggle .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.viewer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: rgba(26, 29, 35, 0.7);
+    padding: 0.75rem;
+    border-radius: 8px 0 0 8px; /* Rounded on the left to match the button */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+}
+
+.viewer-controls-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #a0aec0;
+    text-transform: uppercase;
+    margin: 0 0 0.25rem 0;
+    padding: 0 0.25rem;
+}
+
+.viewer-btn {
+    background-color: rgba(45, 55, 72, 0.8);
+    color: #e2e8f0;
+    border: 1px solid #4a5568;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.viewer-btn:hover {
+    background-color: #4a5568;
+}
+
+.viewer-btn.active {
+    background-color: #4299e1;
+    color: #ffffff;
+    border-color: #4299e1;
+}
+
+/* --- RESTORED: Gallery and Filter Styles --- */
+.gallery-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f7fafc;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.category-filters::before {
+    content: 'Category:';
+    color: #4a5568;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.category-btn {
+    background-color: #e2e8f0;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.category-btn:hover {
+    background-color: #cbd5e0;
+}
+
+.category-btn.active {
+    background-color: #4299e1;
+    color: #ffffff;
+    border-color: #4299e1;
+}
+
+.search-container input {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e0;
+    border-radius: 9999px;
+    padding: 0.6rem 1.25rem;
+    color: #2d3748;
+    font-weight: 600;
+    width: 280px;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.search-container input::placeholder {
+    color: #a0aec0;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.model-gallery {
+    margin-top: 2rem;
+}
+
+.model-gallery h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+}
+
+.model-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.model-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #e2e8f0;
+}
+
+.model-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.07);
+}
+
+.model-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    background-color: #f7fafc;
+}
+
+.model-card-title {
+    padding: 1rem;
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+}

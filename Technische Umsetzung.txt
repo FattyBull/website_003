@@ -1,0 +1,69 @@
+Technische Umsetzung: Präzisierte Antworten und nächste Schritte
+Artikel-Quellformat und Metadaten-Bereitstellung:
+
+Artikel-Quellformat: Sie möchten den Artikeltext mit HTML-Formatierungen liefern, um die Lesbarkeit und Strukturierung für Sie zu erleichtern. Das ist ein guter Ansatz! Ich werde ein klares HTML-Struktur-Template für den Artikelinhalt bereitstellen. Dieses Template wird die Verwendung von <h1>, <h2>, <p>, <ul>, <strong>, <em> usw. demonstrieren, sodass Sie Ihren Text direkt in diese Struktur einfügen können.
+
+Metadaten: Wir werden eine standardisierte Methode definieren, wie Sie mir die Metadaten (Titel, Kategorie, Zusammenfassung, Bildpfad, Veröffentlichungsdatum, Featured-Status) mitteilen. Am einfachsten wäre es, wenn Sie mir diese Informationen in einem JSON-Format oder als klar strukturierte Liste zusammen mit dem HTML-Artikeltext senden. Zum Beispiel:
+
+METADATEN:
+{
+  "title": "Neues Tool für Creators veröffentlicht",
+  "category": "Creators",
+  "summary": "Ein bahnbrechendes neues Tool in Roblox Studio verspricht, die Art und Weise, wie Spiele entwickelt werden, zu revolutionieren.",
+  "image": "/media/img-creator-tool.webp",
+  "date": "2025-07-26",
+  "featured": true
+}
+
+ARTIKEL-INHALT:
+<h1>Neues Tool für Creators veröffentlicht</h1>
+<p>Dies ist der erste Absatz meines Artikels. Hier geht es um das neue Tool...</p>
+<h2>Vorteile für Entwickler</h2>
+<p>Das Tool bietet zahlreiche Vorteile...</p>
+Dies stellt sicher, dass ich die Daten konsistent auslesen und in die articlesData.js integrieren kann. Die articlesData.js wird weiterhin die zentrale JavaScript-Datei sein, die alle Metadaten enthält und von der Homepage und den Kategorieseiten gelesen wird.
+
+CSS (global.css) & Styling-Details:
+
+Farbpalette: Das beigefügte Bild mit den lebendigen Farben (Orange/Rot für den Header, Grün für die Kategorie-Tags) ist eine ausgezeichnete Referenz. Ich werde eine Farbpalette wählen, die diese "farbenfroh, bunt, fröhlich, happy" Ästhetik widerspiegelt und sich an den Roblox-Themen orientiert. Ich werde spezifische HEX-Codes in der global.css verwenden und diese für den Dark Mode anpassen.
+
+Schriftarten: Ich werde Google Fonts verwenden, die für ihre Lesbarkeit und Performance optimiert sind. Eine gute Wahl wäre Inter oder Roboto, da sie modern, klar und auf allen Geräten gut funktionieren. Ich werde Ihnen Vorschläge unterbreiten.
+
+Dark/Light Mode Farben: Ich werde eine gut lesbare dunkle Palette vorschlagen, die die Farbthemen des Light Mode aufgreift, aber in dunkleren Tönen, um einen angenehmen Kontrast zu gewährleisten. Die Umschaltung wird über CSS-Variablen (var(--primary-color)) erfolgen, die in der global.css definiert werden.
+
+Interaktivität (JavaScript):
+
+Suchfunktion: Da der vollständige Artikeltext die articlesData.js zu groß machen würde, werden wir die Suche auf die Metadaten (Titel, Kategorie, Zusammenfassung) beschränken. Die Suchergebnisse werden auf einer separaten Suchergebnisseite präsentiert. Diese Seite wird ebenfalls dynamisch mit JavaScript generiert, basierend auf den gefilterten Artikeln aus der articlesData.js.
+
+Kommentarbereich: Akzeptiert – Kommentare werden vorerst weggelassen.
+
+Lazy Loading: Ich werde Lazy Loading für alle Bilder außerhalb des Viewports implementieren. Dies ist die beste Praxis für die Performance und die Einhaltung der Lighthouse-Scores.
+
+3D-Modellkatalog und Viewer (three.js):
+
+Modell-Referenzen: Genau wie bei den Artikeln werden wir eine separate JavaScript-Datei (z.B. js/models-data.js) erstellen. Diese Datei wird ein Array von Objekten enthalten, wobei jedes Objekt ein 3D-Modell repräsentiert. Jedes Modell-Objekt enthält Metadaten wie:
+
+id: Eindeutige ID
+
+name: Name des Modells
+
+description: Kurze Beschreibung
+
+thumbnail: Pfad zum 2D-Thumbnail-Bild (z.B. /media/model-thumbnail-001.webp)
+
+glbPath: Pfad zur .glb-Datei (z.B. /media/models/model-001.glb)
+
+Katalog-UI: Der Katalog wird als eine Grid-Ansicht von 2D-Thumbnail-Bildern auf der dedizierten HTML-Seite für den 3D-Modellkatalog implementiert. Beim Klicken auf ein Thumbnail wird das entsprechende .glb-Modell im three.js-Viewer auf derselben Seite oder einer modalen Ansicht geladen.
+
+Interaktion: Standard-Interaktionen wie Drehen mit der Maus (Orbit Controls), Zoom und Pan werden implementiert, um die 3D-Modelle aus verschiedenen Blickwinkeln betrachten zu können.
+
+SEO:
+
+Schema Markup Generierung: Ja, ich werde die JSON-LD Schema Markups direkt in den <head>-Bereich der generierten HTML-Dateien einfügen.
+
+Sitemap.xml & Robots.txt: Ja, ich werde die sitemap.xml und eine einfache robots.txt basierend auf den generierten URLs erstellen und Ihnen diese zur Verfügung stellen.
+
+Internationalisierung (zukünftige Planung):
+
+Dateistruktur für Sprachen: Ich stimme Ihnen zu. Die primäre englische Version wird im Root-Verzeichnis der Domain liegen (z.B. https://hammerbanger.com/news/my-article/). Zusätzliche Sprachen erhalten dann ihre eigenen Unterverzeichnisse (z.B. https://hammerbanger.com/de/news/mein-artikel/). Dies ist ein gängiger und SEO-freundlicher Ansatz, wie auch Neil Patel empfiehlt.
+
+hreflang-Tags: Ich werde die korrekten hreflang-Tags in den <head>-Bereich jeder Sprachversion einfügen, um Suchmaschinen über die alternativen Sprachversionen zu informieren und Duplicate Content zu vermeiden.
